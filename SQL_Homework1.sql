@@ -1,4 +1,5 @@
 -- Eric Staveley  MWSa  SQL HW Assignment #1  (MySQL)   Due: 27Mar2019
+-- Amended post grading per TA's suggestions (Grade: A)
 
 USE sakila;
 
@@ -8,7 +9,7 @@ SELECT first_name,
 FROM   actor; 
 
 -- 1b
-SELECT Concat(Upper(first_name), "", Upper(last_name)) AS 'ACTOR NAME'
+SELECT Concat(Upper(first_name), " ", Upper(last_name)) AS 'ACTOR NAME'
 FROM   actor; 
 
 -- 2a
@@ -83,26 +84,26 @@ WHERE (first_name = 'HARPO'
 SHOW CREATE TABLE address;
 
 -- 6a
-SELECT first_name, 
-       last_name, 
-       address
+SELECT s.first_name, 
+       s.last_name, 
+       a.address
 FROM staff s
      INNER JOIN address a
             ON s.address_id = a.address_id;
 
 -- 6b
-SELECT first_name, 
-       last_name, 
-       sum(p.amount) As 'Total Amount'
+SELECT s.first_name, 
+       s.last_name, 
+       sum(p.amount) As 'Total Amount' 
 FROM staff s
      INNER JOIN payment p
-             ON s.staff_id = p.staff_id
-WHERE MONTH(p.payment_date) = 8
+             ON s.staff_id = p.staff_id 
+WHERE MONTH(p.payment_date) = 8 
 GROUP BY s.first_name;
 
 -- 6c
 SELECT title, 
-       sum(fa.film_id) As 'Num of Actors'
+       count(fa.film_id) As 'Num of Actors'
 FROM film f
      INNER JOIN film_actor fa
             ON f.film_id = fa.film_id
@@ -152,17 +153,17 @@ SELECT first_name,
 FROM customer cust
      INNER JOIN address addr 
              ON cust.address_id = addr.address_id 
-     INNER JOIN city city 
-             ON city.city_id = addr.city_id 
+     INNER JOIN city c 
+             ON c.city_id = addr.city_id 
      INNER JOIN country cntry 
-             ON cntry.country_id = city.country_id 
+             ON cntry.country_id = c.country_id 
 WHERE cntry.country = 'Canada';
 
 -- 7d
 SELECT title
-FROM film film
+FROM film f
      INNER JOIN film_category fc 
-            ON film.film_id = fc.film_id 
+            ON f.film_id = fc.film_id 
      INNER JOIN category cat
             ON cat.category_id = fc.category_id 
 WHERE cat.name = 'Family';
